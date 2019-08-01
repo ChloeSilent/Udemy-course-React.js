@@ -3,6 +3,7 @@ import React from 'react';
 import AppHeader from '../app-header';
 import SearchPanel from '../search-panel';
 import ToDoLIst from '../todo-list';
+import ItemStatusFilter from '../item-status-filter';
 import './app.css';
 
 const toDoData = [
@@ -21,6 +22,7 @@ const App = () => {
             <AppHeader />
             <div className="search-panel d-flex">
                 <SearchPanel />
+                <ItemStatusFilter/>
             </div>
             <ToDoLIst todos={toDoData} />
         </div>
