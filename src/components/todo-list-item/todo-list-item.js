@@ -7,14 +7,28 @@ import './todo-list-item.css'
     */
 class ToDoListItem extends Component {
     /* наш класс  ToDoListItem является дочерним Components*/
-/*при клике меняем состояние */
-// здесь констурктор нужен только для того, что бы объявить клик по конкр элементу
-    constructor () {
+    /*при клике меняем состояние */
+    // здесь констурктор нужен только для того, что бы объявить клик по конкр элементу
+    constructor() {
         //если наш класс наследует какой-л класс, то мы указываем в constructor super()
         super();
         // стрелоч функция имеет наружн this - поэтому здесь function не подойдет
+        this.state = {
+            done: false,
+            important: false
+        }
+
         this.onLabelClick = () => {
-            console.log(`clicked on ${this.props.label}`)
+            // console.log(`clicked on ${this.props.label}`)
+            this.setState({
+                done: true
+            });
+        };
+
+        this.onMarkImportant = () => {
+            this.setState({
+                important: true
+            });
         }
     }
 
@@ -22,21 +36,38 @@ class ToDoListItem extends Component {
 
     render() { // сюда прописать, то, что должна делать функция, без всякий состояний
         /* весь функционал прописываем внутри render*/
-        const { label, important = false } = this.props; 
+        const { label } = this.props;
         //  если раньше они просто передавались в функцию, то теперь все необходимые свойства берем из this
         //  строчка выше - это по сути наши props
-        const style = {
-            color: important ? 'tomato' : 'blue'
+        const { done, important } = this.state;
+
+        let classNames = 'todo-list-item';
+
+        if (done) {
+            classNames += ' done';
         }
 
+        if (important) {
+            classNames += ' important';
+        }
+
+
         return (
-            <span className="todo__list-item " >
-                <span 
-                className="todo__list-item-label " 
-                style={style} 
-                onClick={ this.onLabelClick}>
+            <span className={classNames} >
+                <span
+                    className="todo-list-item-label "
+                    onClick={this.onLabelClick}>
                     {label}
                 </span>
+                <button type="button"
+                    className="btn btn-outline-danger btn-sm float-right">
+                    <i className="fa fa-trash-o"></i>
+                </button>
+                <button type="button"
+                    className="btn btn-outline-success btn-sm float-right"
+                    onClick={this.onMarkImportant}>
+                    <i className="fa fa-exclamation"></i>
+                </button>
             </span>
         )
         // выше привязали this с помощью bind, иначе оно теряется
